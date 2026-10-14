@@ -4,14 +4,19 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
-from .models import Room, RoomImage
-from .serializers import RoomImageSerializer, RoomSerializer
+from .models import OccupiedDate, Room, RoomImage
+from .serializers import OccupiedDateSerializer, RoomImageSerializer, RoomSerializer
 
 # Create your views here.
 @api_view(['get'])
 def api_root(request, format = None):
     return Response({
-        'rooms': reverse('room_list', request = request, format = format)
+        'rooms': reverse('room_list', request = request, format = format),
+        'occupied_dates': reverse(
+            'occupied-date-list',
+            request=request,
+            format=format
+        )
     })
 
 class RoomImageUploadMixin:
@@ -35,8 +40,6 @@ class RoomList(generics.ListCreateAPIView, RoomImageUploadMixin):
         room = serializer.save()
         self.save_uploaded_images(room)
 
-
-
 class RoomDetail(generics.RetrieveUpdateDestroyAPIView, RoomImageUploadMixin):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
@@ -45,3 +48,11 @@ class RoomDetail(generics.RetrieveUpdateDestroyAPIView, RoomImageUploadMixin):
     def perform_update(self, serializer):
         room = serializer.save()
         self.save_uploaded_images(room)
+
+class OccupiedDateList(generics.ListCreateAPIView):
+    queryset = OccupiedDate.objects.all()
+    serializer_class = OccupiedDateSerializer
+
+class OccupiedDateDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = OccupiedDate.objects.all()
+    serializer_class = OccupiedDateSerializer
