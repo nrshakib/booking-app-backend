@@ -33,14 +33,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+      # Django default apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party apps
     'rest_framework',
+    'rest_framework.authtoken',
+
+    # apps
     'room_booking',
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -134,5 +141,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-AUTH_USER_MODEL = "room_booking.User"
-AUTHENTICATION_BACKENDS = ['room_booking.auth_backend.EmailBackend']
+AUTH_USER_MODEL = "user.User"
+AUTHENTICATION_BACKENDS = ['user.auth_backend.EmailBackend']
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}

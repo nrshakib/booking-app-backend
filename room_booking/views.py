@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 from .models import OccupiedDate, Room, RoomImage
-from .serializers import OccupiedDateSerializer, RoomImageSerializer, RoomSerializer
+from .serializers import OccupiedDateSerializer, RoomSerializer
 
 # Create your views here.
 @api_view(['get'])

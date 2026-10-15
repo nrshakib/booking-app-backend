@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import OccupiedDate, Room, RoomImage
+from .models import OccupiedDate, Room, RoomImage, User
+from django.contrib.auth.hashers import make_password
+
 
 class RoomImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,3 +20,4 @@ class OccupiedDateSerializer(serializers.ModelSerializer):
     class Meta:
         model = OccupiedDate
         fields = ['id', 'room', 'date']
+

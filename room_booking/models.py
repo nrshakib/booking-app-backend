@@ -1,4 +1,3 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from booking_app.settings import AUTH_USER_MODEL
@@ -45,6 +44,3 @@ class OccupiedDate(models.Model):
             return f"{self.date} - {self.room.name} booked by {self.user.username}"
 
 
-class User(AbstractUser):
-    email = models.EmailField(unique=True)
-    full_name = models.CharField(max_length=100, default='')
