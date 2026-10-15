@@ -1,4 +1,7 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+from booking_app.settings import AUTH_USER_MODEL
 
 # Create your models here.
 
@@ -35,4 +38,13 @@ class RoomImage(models.Model):
 
 class OccupiedDate(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="occupied_date")
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="booked_date")
     date = models.DateField()
+
+    def __str__(self):
+            return f"{self.date} - {self.room.name} booked by {self.user.username}"
+
+
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
+    full_name = models.CharField(max_length=100, default='')
