@@ -1,6 +1,6 @@
+from django.conf import settings
 from django.db import models
 
-from booking_app.settings import AUTH_USER_MODEL
 
 # Create your models here.
 
@@ -37,7 +37,7 @@ class RoomImage(models.Model):
 
 class OccupiedDate(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="occupied_date")
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="booked_date")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="booked_date")
     date = models.DateField()
 
     def __str__(self):

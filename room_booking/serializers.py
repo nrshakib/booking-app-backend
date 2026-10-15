@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import OccupiedDate, Room, RoomImage, User
-from django.contrib.auth.hashers import make_password
+from .models import OccupiedDate, Room, RoomImage
 
 
 class RoomImageSerializer(serializers.ModelSerializer):

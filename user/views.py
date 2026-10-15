@@ -1,6 +1,8 @@
 from rest_framework import generics
+from rest_framework.authentication import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
+from rest_framework.exceptions import AuthenticationFailed, PermissionDenied
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
@@ -37,7 +39,7 @@ class UserDetails(generics.RetrieveAPIView):
         if obj == user or user.is_staff or user.is_superuser:
             return obj
         else:
-            pass
+            raise PermissionDenied("You cannot access this user's details.")
 
 class Register(generics.CreateAPIView):
      queryset = User.objects.all()
@@ -61,3 +63,26 @@ class Register(generics.CreateAPIView):
      def create(self, request, *args, **kwargs):
          super().create(request, *args, **kwargs)
          return Response(self.response_data)
+
+
+
+class Login(APIView):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        user = authenticate(username = username, password = password)
+
+        if user is None:
+            raise AuthenticationFailed("Invalid Username of Password")
+        else:
+            token,create = Token.objects.get_or_create(user = user)
+            return Response({
+             "user": {
+                 "id": user.id,
+                 "username" : user.name,
+                 "email": user.email,
+                 "full_name": user.full_name
+             },
+             "token": token.key
+         })
