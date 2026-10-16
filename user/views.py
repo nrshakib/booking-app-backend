@@ -64,8 +64,6 @@ class Register(generics.CreateAPIView):
          super().create(request, *args, **kwargs)
          return Response(self.response_data)
 
-
-
 class Login(APIView):
     def post(self, request, *args, **kwargs):
         username = request.data.get("username")
